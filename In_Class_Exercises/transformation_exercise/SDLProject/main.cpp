@@ -34,11 +34,14 @@ TRIANGLE_BLUE = 0.4,
 TRIANGLE_GREEN = 0.4,
 TRIANGLE_OPACITY = 1.0;
 
+const float MILLISECONDS_IN_SECOND = 1000.0;
+
 SDL_Window* g_display_window;
 
 bool g_game_is_running = true;
 bool g_is_growing = true;
 int  g_frame_counter = 0;
+float g_previous_ticks = 0.0f;
 
 ShaderProgram g_shader_program;
 glm::mat4 g_view_matrix,
@@ -48,7 +51,7 @@ g_projection_matrix;
 // ——————————— GLOBAL VARS AND CONSTS FOR TRANSFORMATIONS ——————————— //
 
 const float RADIUS = 2.0f;      // radius of your circle
-const float ROT_SPEED = 0.01f;  // rotational speed
+const float ROT_SPEED = 1.0f;  // rotational speed
 float       g_angle = 0.0f;     // current angle
 float       g_x_coord = RADIUS, // current x and y coordinates
             g_y_coord = 0.0f;
@@ -101,11 +104,14 @@ void process_input()
 
 void update()
 {
+    float ticks = (float)SDL_GetTicks() / MILLISECONDS_IN_SECOND; // get the current number of ticks
+    float delta_time = ticks - g_previous_ticks; // the delta time is the difference from the last frame
+    g_previous_ticks = ticks;
 
     // ——————————— YOUR ORBIT TRANSFORMATIONS SHOULD GO HERE ——————————— //
 
     // 1. Setting up transformation logic
-    g_angle += ROT_SPEED;     // increment g_angle by ROT_SPEED
+    g_angle += ROT_SPEED * delta_time;     // increment g_angle by ROT_SPEED
 
     // 2. Calculate x,y using trigonometry
     g_x_coord = RADIUS * glm::cos(g_angle);

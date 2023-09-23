@@ -57,14 +57,14 @@ const float GROWTH_FACTOR = 1.01f;
 const float SHRINK_FACTOR = 0.99f;
 const int MAX_FRAME = 100;
 
-const float RADIUS = 2.0f;      // radius of your circle
-const float ROT_SPEED = 0.01f;  // rotational speed
+const float RADIUS = 1.5f;      // radius of your circle
+const float ROT_SPEED = 1.5f;  // rotational speed
 
 const int NUMBER_OF_TEXTURES = 1; // to be generated, that is
 const GLint LEVEL_OF_DETAIL = 0;  // base image level; Level n is the nth mipmap reduction image
 const GLint TEXTURE_BORDER = 0;   // this value MUST be zero
 
-const char PLAYER_SPRITE_FILEPATH[] = "bunny.png";
+const char BUNNY_SPRITE_FILEPATH[] = "bunny.png";
 const char CARROT_SPRITE_FILEPATH[] = "carrot.png";
 
 SDL_Window* g_display_window;
@@ -74,7 +74,7 @@ bool g_move_up = true;
 int  g_frame_counter = 0;
 
 ShaderProgram g_shader_program;
-glm::mat4 view_matrix, m_model_matrix, m_projection_matrix, g_model_matrix_2;
+glm::mat4 g_view_matrix, g_model_matrix, g_projection_matrix, g_model_matrix_2;
 
 float g_triangle_x = 0.0f;
 float g_triangle_y = 0.0f;
@@ -85,7 +85,7 @@ float g_x_coord = RADIUS, // current x and y coordinates
       g_y_coord = 0.0f;
 float g_previous_ticks = 0.0f;
 
-GLuint g_player_texture_id, g_carrot_texture_id;
+GLuint g_bunny_texture_id, g_carrot_texture_id;
 
 GLuint load_texture(const char* filepath)
 {
@@ -135,21 +135,21 @@ void initialise()
 
     g_shader_program.load(V_SHADER_PATH, F_SHADER_PATH);
 
-    m_model_matrix = glm::mat4(1.0f);
+    g_model_matrix = glm::mat4(1.0f);
     g_model_matrix_2 = glm::mat4(1.0f);
     g_model_matrix_2 = glm::translate(g_model_matrix_2, glm::vec3(2.0f, 0.0f, 0.0f));
-    view_matrix = glm::mat4(1.0f);  // Defines the position (location and orientation) of the camera
-    m_projection_matrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);  // Defines the characteristics of your camera, such as clip planes, field of view, projection method etc.
+    g_view_matrix = glm::mat4(1.0f);  // Defines the position (location and orientation) of the camera
+    g_projection_matrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);  // Defines the characteristics of your camera, such as clip planes, field of view, projection method etc.
 
-    g_shader_program.set_projection_matrix(m_projection_matrix);
-    g_shader_program.set_view_matrix(view_matrix);
+    g_shader_program.set_projection_matrix(g_projection_matrix);
+    g_shader_program.set_view_matrix(g_view_matrix);
     // Notice we haven't set our model matrix yet!
 
     glUseProgram(g_shader_program.get_program_id());
 
     glClearColor(BG_RED, BG_BLUE, BG_GREEN, BG_OPACITY);
 
-    g_player_texture_id = load_texture(PLAYER_SPRITE_FILEPATH);
+    g_bunny_texture_id = load_texture(BUNNY_SPRITE_FILEPATH);
     g_carrot_texture_id = load_texture(CARROT_SPRITE_FILEPATH);
 
     // enable blending
@@ -212,24 +212,23 @@ void update()
                              1.0f);
 
     // ----------- Orbiting carrot ----------- //
-    // TODO: orbiting at a fast rate
-    g_angle += ROT_SPEED;     // increment g_angle by ROT_SPEED
+    g_angle += ROT_SPEED * delta_time;     // increment g_angle by ROT_SPEED
 
-    g_x_coord = RADIUS * glm::cos(g_angle); // * delta_time??
-    g_y_coord = RADIUS * glm::sin(g_angle); // * delta_time??
+    g_x_coord = RADIUS * glm::cos(g_angle);
+    g_y_coord = RADIUS * glm::sin(g_angle);
 
     // ----------- Rotating carrot ----------- //
     g_triangle_rotate += DEGREES_PER_SECOND * delta_time; // 90-degrees per second
 
     // ----------- Reset Both Matrix ----------- //
-    m_model_matrix = glm::mat4(1.0f);
+    g_model_matrix = glm::mat4(1.0f);
     g_model_matrix_2 = glm::mat4(1.0f);
 
     // ----------- Transformations ----------- //
-    m_model_matrix = glm::translate(m_model_matrix, glm::vec3(g_triangle_x, g_triangle_y, 0.0f));
-    m_model_matrix = glm::scale(m_model_matrix, scale_vector);
-    g_model_matrix_2 = glm::translate(m_model_matrix, glm::vec3(2.0f, 0.0f, 0.0f));
-    g_model_matrix_2 = glm::translate(m_model_matrix, glm::vec3(g_x_coord, g_y_coord, 0.0f));
+    g_model_matrix = glm::translate(g_model_matrix, glm::vec3(g_triangle_x, g_triangle_y, 0.0f));
+    g_model_matrix = glm::scale(g_model_matrix, scale_vector);
+    g_model_matrix_2 = glm::translate(g_model_matrix_2, glm::vec3(2.0f, 0.0f, 0.0f));
+    g_model_matrix_2 = glm::translate(g_model_matrix, glm::vec3(g_x_coord, g_y_coord, 0.0f));
     g_model_matrix_2 = glm::rotate(g_model_matrix_2, glm::radians(g_triangle_rotate), glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
@@ -263,7 +262,7 @@ void render() {
     glEnableVertexAttribArray(g_shader_program.get_tex_coordinate_attribute());
 
     // Bind texture
-    draw_object(m_model_matrix, g_player_texture_id);
+    draw_object(g_model_matrix, g_bunny_texture_id);
 
     // We disable two attribute arrays now
     glDisableVertexAttribArray(g_shader_program.get_position_attribute());
