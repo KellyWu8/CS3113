@@ -1,0 +1,8 @@
+﻿  main.cpp
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\In_Class_Exercises\delta-time\SDLProject\main.cpp(31,26): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\In_Class_Exercises\delta-time\SDLProject\main.cpp(32,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\In_Class_Exercises\delta-time\SDLProject\main.cpp(33,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\In_Class_Exercises\delta-time\SDLProject\main.cpp(34,20): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  ShaderProgram.cpp
+  Generating Code...
+  SDLProject.vcxproj -> C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\In_Class_Exercises\delta-time\SDLProject\Debug\SDLProject.exe

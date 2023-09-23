@@ -1,0 +1,6 @@
+﻿  main.cpp
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\In_Class_Exercises\transformation_exercise\SDLProject\main.cpp(32,26): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\In_Class_Exercises\transformation_exercise\SDLProject\main.cpp(33,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\In_Class_Exercises\transformation_exercise\SDLProject\main.cpp(34,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\In_Class_Exercises\transformation_exercise\SDLProject\main.cpp(35,20): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  SDLProject.vcxproj -> C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\In_Class_Exercises\transformation_exercise\SDLProject\Debug\SDLProject.exe
