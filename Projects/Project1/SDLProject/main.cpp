@@ -53,9 +53,8 @@ const float DEGREES_PER_SECOND = 90.0f;
 const float MIN_Y_DIRECTION = -2;
 const float MAX_Y_DIRECTION = 2;
 
-const float GROWTH_FACTOR = 1.01f;
-const float SHRINK_FACTOR = 0.99f;
-const int MAX_FRAME = 100;
+const float SCALE_FACTOR = 0.5f;
+const int MAX_FRAME = 400;
 
 const float RADIUS = 1.5f;      // radius of your circle
 const float ROT_SPEED = 1.5f;  // rotational speed
@@ -84,6 +83,7 @@ float g_angle = 0.0f;     // current angle
 float g_x_coord = RADIUS, // current x and y coordinates
       g_y_coord = 0.0f;
 float g_previous_ticks = 0.0f;
+float g_scale_size = 1.0f;
 
 GLuint g_bunny_texture_id, g_carrot_texture_id;
 
@@ -181,8 +181,8 @@ void update()
             g_move_up = false;
         }
         else {
-            g_triangle_x += 1.0f * delta_time;
-            g_triangle_y += 1.0f * delta_time;
+            g_triangle_x += 0.5f * delta_time;
+            g_triangle_y += 0.5f * delta_time;
         }
     }
     else {
@@ -190,16 +190,14 @@ void update()
             g_move_up = true;
         }
         else {
-            g_triangle_x -= 1.0f * delta_time;
-            g_triangle_y -= 1.0f * delta_time;
+            g_triangle_x -= 0.5f * delta_time;
+            g_triangle_y -= 0.5f * delta_time;
         }
     }
 
     // ----------- Scaling rabbit - heartbeat ----------- //
-    // TODO: does not look like it's working...
-    g_frame_counter += 1;
-
     glm::vec3 scale_vector;
+    g_frame_counter += 1;
 
     if (g_frame_counter >= MAX_FRAME)
     {
@@ -207,9 +205,14 @@ void update()
         g_frame_counter = 0;
     }
 
-    scale_vector = glm::vec3(g_is_growing ? GROWTH_FACTOR : SHRINK_FACTOR,
-                             g_is_growing ? GROWTH_FACTOR : SHRINK_FACTOR,
-                             1.0f);
+    if (g_is_growing) {
+        g_scale_size += SCALE_FACTOR * delta_time;
+    }
+    else {
+        g_scale_size -= SCALE_FACTOR * delta_time;
+    }
+
+    scale_vector = glm::vec3(g_scale_size, g_scale_size, 1.0f);
 
     // ----------- Orbiting carrot ----------- //
     g_angle += ROT_SPEED * delta_time;     // increment g_angle by ROT_SPEED
@@ -226,10 +229,10 @@ void update()
 
     // ----------- Transformations ----------- //
     g_model_matrix = glm::translate(g_model_matrix, glm::vec3(g_triangle_x, g_triangle_y, 0.0f));
-    g_model_matrix = glm::scale(g_model_matrix, scale_vector);
     g_model_matrix_2 = glm::translate(g_model_matrix_2, glm::vec3(2.0f, 0.0f, 0.0f));
     g_model_matrix_2 = glm::translate(g_model_matrix, glm::vec3(g_x_coord, g_y_coord, 0.0f));
     g_model_matrix_2 = glm::rotate(g_model_matrix_2, glm::radians(g_triangle_rotate), glm::vec3(0.0f, 0.0f, 1.0f));
+    g_model_matrix = glm::scale(g_model_matrix, scale_vector);
 }
 
 void draw_object(glm::mat4& object_model_matrix, GLuint& object_texture_id)
