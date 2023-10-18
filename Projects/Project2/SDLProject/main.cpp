@@ -150,8 +150,6 @@ void initialise()
     g_model_matrix_2 = glm::mat4(1.0f); // Player 2
     g_model_matrix_3 = glm::mat4(1.0f); // Ball
 
-    g_model_matrix = glm::translate(g_model_matrix, glm::vec3(-4.0f, 0.0f, 0.0f));
-    g_model_matrix_2 = glm::translate(g_model_matrix_2, glm::vec3(4.0f, 0.0f, 0.0f));
     // Ball starts moving diagonally
     g_ball_movement.x = 2.0f;
     g_ball_movement.y = 1.0f;
