@@ -68,17 +68,17 @@ bool g_game_is_running = true;
 ShaderProgram g_shader_program;
 GLuint        g_player_1_texture_id, g_player_2_texture_id, g_ball_texture_id, g_p1_win_texture_id, g_p2_win_texture_id;
 glm::mat4     g_view_matrix,
-              g_model_matrix,
-              g_projection_matrix,
-              g_model_matrix_2,
-              g_model_matrix_3,
-              g_model_matrix_4,
-              g_model_matrix_5;
+g_model_matrix,
+g_projection_matrix,
+g_model_matrix_2,
+g_model_matrix_3,
+g_model_matrix_4,
+g_model_matrix_5;
 
 float g_previous_ticks = 0.0f;
-                                 
-glm::vec3 g_player_1_position = glm::vec3(-4.0f, 0.0f, 0.0f);     
-glm::vec3 g_player_1_movement = glm::vec3(0.0f, 0.0f, 0.0f);    
+
+glm::vec3 g_player_1_position = glm::vec3(-4.0f, 0.0f, 0.0f);
+glm::vec3 g_player_1_movement = glm::vec3(0.0f, 0.0f, 0.0f);
 
 glm::vec3 g_player_2_position = glm::vec3(4.0f, 0.0f, 0.0f);
 glm::vec3 g_player_2_movement = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -170,34 +170,34 @@ void initialise()
 void process_input()
 {
     // VERY IMPORTANT: If nothing is pressed, we don't want to go anywhere   
-    g_player_1_movement = glm::vec3(0.0f);                    
+    g_player_1_movement = glm::vec3(0.0f);
     g_player_2_movement = glm::vec3(0.0f);
-  
-// –––––––––––––––––––––––––––––––– KEYSTROKES ––––––––––––––––––––––––– //
-    SDL_Event event;                                                         
-    while (SDL_PollEvent(&event))                                            
-    {                                                                        
-        switch (event.type)                                                  
-        {                                                                    
-        // End game                                                      
-        case SDL_QUIT:                                                   
-        case SDL_WINDOWEVENT_CLOSE:                                      
-            g_game_is_running = false;                                   
-            break;                                                       
-  
-        case SDL_KEYDOWN:                                                
-            switch (event.key.keysym.sym)                                
-            {                                                            
-            case SDLK_w:                                          
+
+    // ???????????????????????????????? KEYSTROKES ????????????????????????? //
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        switch (event.type)
+        {
+            // End game                                                      
+        case SDL_QUIT:
+        case SDL_WINDOWEVENT_CLOSE:
+            g_game_is_running = false;
+            break;
+
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_w:
                 // Move the player_1 up
                 g_player_1_movement.y = 1.0f;
-                break;                                               
-                
-            case SDLK_s:                                         
-                // Move the player_1 down  
-                g_player_1_movement.y = -1.0f;                          
+                break;
 
-                break;    
+            case SDLK_s:
+                // Move the player_1 down  
+                g_player_1_movement.y = -1.0f;
+
+                break;
 
             case SDLK_UP:
                 // Move the player_2 up       
@@ -218,33 +218,33 @@ void process_input()
                 player_2_manual_control = !player_2_manual_control;
                 break;
 
-            case SDLK_q:                                             
+            case SDLK_q:
                 // Quit the game with a keystroke                    
-                g_game_is_running = false;                           
-                break;                                               
-                
-            default:                                                 
-                break;                                               
-            }                                                            
-                                                                         
-        default:                                                         
-            break;                                                       
-        }                                                                    
-    }                                                                        
-                                                                             
-    // ––––––––––––––––––––––––––––––– KEY HOLD –––––––––––––––––––––––––––– //
-                                                                             
-    const Uint8* key_state = SDL_GetKeyboardState(NULL);                     
-                                                            
-                                                                             
-    if (key_state[SDL_SCANCODE_W])                                          
-    {                                                                        
-        g_player_1_movement.y = 1.0f;                                          
-    }                                                                        
-    else if (key_state[SDL_SCANCODE_S])                                   
-    {                                                                        
-        g_player_1_movement.y = -1.0f;                                         
-    }    
+                g_game_is_running = false;
+                break;
+
+            default:
+                break;
+            }
+
+        default:
+            break;
+        }
+    }
+
+    // ??????????????????????????????? KEY HOLD ???????????????????????????? //
+
+    const Uint8* key_state = SDL_GetKeyboardState(NULL);
+
+
+    if (key_state[SDL_SCANCODE_W])
+    {
+        g_player_1_movement.y = 1.0f;
+    }
+    else if (key_state[SDL_SCANCODE_S])
+    {
+        g_player_1_movement.y = -1.0f;
+    }
 
     if (key_state[SDL_SCANCODE_UP] && player_2_manual_control)
     {
@@ -254,25 +254,25 @@ void process_input()
     {
         g_player_2_movement.y = -1.0f;
     }
-                                                                             
+
     // This makes sure that the player can't "cheat" their way into moving faster                                                                
-    if (glm::length(g_player_1_movement) > 1.0f)                               
-    {                                                                        
-        g_player_1_movement = glm::normalize(g_player_1_movement);               
-    }      
+    if (glm::length(g_player_1_movement) > 1.0f)
+    {
+        g_player_1_movement = glm::normalize(g_player_1_movement);
+    }
 
     if (glm::length(g_player_2_movement) > 1.0f)
     {
         g_player_2_movement = glm::normalize(g_player_2_movement);
     }
-    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– //
+    // ????????????????????????????????????????????????????????????????????? //
 }
 
 void update()
 {
     float ticks = (float)SDL_GetTicks() / MILLISECONDS_IN_SECOND; // get the current number of ticks
     float delta_time = ticks - g_previous_ticks; // the delta time is the difference from the last frame
-    g_previous_ticks = ticks; 
+    g_previous_ticks = ticks;
 
     // ----------- Calculate the new position for players ----------- //
     glm::vec3 p1_new_position = g_player_1_position + g_player_1_movement * g_player_speed * delta_time;
@@ -311,10 +311,10 @@ void update()
 
     float collision_factor = 0.95f;
 
-    float x_distance_p1 = fabs(ball_new_position.x - p1_new_position.x) - ((PADDLE_SCA.x * collision_factor + 
-                                                                            BALL_SCA.x   * collision_factor) / 2.0f);
-    float y_distance_p1 = fabs(ball_new_position.y - p1_new_position.y) - ((PADDLE_SCA.y * collision_factor + 
-                                                                            BALL_SCA.y   * collision_factor) / 2.0f);
+    float x_distance_p1 = fabs(ball_new_position.x - p1_new_position.x) - ((PADDLE_SCA.x * collision_factor +
+        BALL_SCA.x * collision_factor) / 2.0f);
+    float y_distance_p1 = fabs(ball_new_position.y - p1_new_position.y) - ((PADDLE_SCA.y * collision_factor +
+        BALL_SCA.y * collision_factor) / 2.0f);
 
     // Collision with player 1 paddle
     if (x_distance_p1 < 0.0f && y_distance_p1 < 0.0f)
@@ -323,9 +323,9 @@ void update()
     }
 
     float x_distance_p2 = fabs(ball_new_position.x - p2_new_position.x) - ((PADDLE_SCA.x * collision_factor +
-                                                                            BALL_SCA.x   * collision_factor) / 2.0f);
-    float y_distance_p2 = fabs(ball_new_position.y - p2_new_position.y) - ((PADDLE_SCA.y * collision_factor + 
-                                                                            BALL_SCA.y   * collision_factor) / 2.0f);
+        BALL_SCA.x * collision_factor) / 2.0f);
+    float y_distance_p2 = fabs(ball_new_position.y - p2_new_position.y) - ((PADDLE_SCA.y * collision_factor +
+        BALL_SCA.y * collision_factor) / 2.0f);
 
     // Collision with player 2 paddle
     if (x_distance_p2 < 0.0f && y_distance_p2 < 0.0f)
@@ -361,9 +361,9 @@ void update()
 
     ball_new_position = g_ball_position + (g_ball_movement * g_ball_speed * delta_time);    // Reupdate ball position
     g_ball_position = ball_new_position;
-    
+
     // ----------- Transformations ----------- //
-    g_model_matrix = glm::mat4(1.0f);    
+    g_model_matrix = glm::mat4(1.0f);
     g_model_matrix_2 = glm::mat4(1.0f);
     g_model_matrix_3 = glm::mat4(1.0f);
 
