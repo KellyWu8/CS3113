@@ -136,7 +136,7 @@ void initialise()
     g_levels[2] = g_levelB;
     g_levels[3] = g_levelC;
 
-    // Start at Menu
+    // Start at Menu screen
     switch_to_scene(g_levels[0]);
 }
 
