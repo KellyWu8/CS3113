@@ -1,0 +1,5 @@
+﻿  Effects.cpp
+  Utility.cpp
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\Projects\Project5\SDLProject\Utility.cpp(56,23): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  SDLProject.vcxproj -> C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\Projects\Project5\SDLProject\Debug\SDLProject.exe
