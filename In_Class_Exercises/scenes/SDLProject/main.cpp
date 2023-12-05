@@ -24,7 +24,6 @@
 #include "Scene.h"
 #include "LevelA.h"
 #include "LevelB.h"
-#include "Effects.h"
 
 // ––––– CONSTANTS ––––– //
 const int WINDOW_WIDTH = 640,
@@ -40,8 +39,8 @@ VIEWPORT_Y = 0,
 VIEWPORT_WIDTH = WINDOW_WIDTH,
 VIEWPORT_HEIGHT = WINDOW_HEIGHT;
 
-const char V_SHADER_PATH[] = "shaders/vertex_lit.glsl",
-F_SHADER_PATH[] = "shaders/fragment_lit.glsl";
+const char  V_SHADER_PATH[] = "shaders/vertex_textured.glsl",
+F_SHADER_PATH[] = "shaders/fragment_textured.glsl";
 
 const float MILLISECONDS_IN_SECOND = 1000.0;
 
@@ -51,7 +50,6 @@ Scene* g_current_scene;
 LevelA* g_levelA;
 LevelB* g_levelB;
 
-Effects* g_effects;
 Scene* g_levels[2];
 
 SDL_Window* g_display_window;
@@ -113,9 +111,6 @@ void initialise()
 
     // Start at level A
     switch_to_scene(g_levels[0]);
-
-    g_effects = new Effects(g_projection_matrix, g_view_matrix);
-    g_effects->start(SHRINK, 2.0f);
 }
 
 void process_input()
@@ -193,9 +188,6 @@ void update()
 
     while (delta_time >= FIXED_TIMESTEP) {
         g_current_scene->update(FIXED_TIMESTEP);
-        g_effects->update(FIXED_TIMESTEP);
-
-        if (g_is_colliding_bottom == false && g_current_scene->m_state.player->m_collided_bottom) g_effects->start(SHAKE, 1.0f);
 
         g_is_colliding_bottom = g_current_scene->m_state.player->m_collided_bottom;
 
@@ -215,9 +207,6 @@ void update()
     }
 
     if (g_current_scene == g_levelA && g_current_scene->m_state.player->get_position().y < -10.0f) switch_to_scene(g_levelB);
-
-    g_view_matrix = glm::translate(g_view_matrix, g_effects->m_view_offset);
-    g_program.set_light_position(g_current_scene->m_state.player->get_position());
 }
 
 void render()
@@ -227,7 +216,6 @@ void render()
 
     glUseProgram(g_program.m_program_id);
     g_current_scene->render(&g_program);
-    g_effects->render();
 
     SDL_GL_SwapWindow(g_display_window);
 }
@@ -238,7 +226,6 @@ void shutdown()
 
     delete g_levelA;
     delete g_levelB;
-    delete g_effects;
 }
 
 // ––––– DRIVER GAME LOOP ––––– //
