@@ -284,6 +284,25 @@ void render()
         Utility::draw_text(&g_program, g_text_texture_id, std::string("Press enter to start"), 0.45f, 0.01f, glm::vec3(0.5f, -3.0f, 0.0f));
     }
 
+    // Player's lives text
+    if (g_current_scene != g_menu) {
+        if (g_curr_lives_left == 3) {
+            Utility::draw_text(&g_program, g_text_texture_id, std::string("3"), 0.45f, 0.01f, 
+                               glm::vec3(g_current_scene->m_state.player->get_position().x,
+                               g_current_scene->m_state.player->get_position().y + 0.57f, 0.0f));
+        }
+        else if (g_curr_lives_left == 2) {
+            Utility::draw_text(&g_program, g_text_texture_id, std::string("2"), 0.45f, 0.01f,
+                glm::vec3(g_current_scene->m_state.player->get_position().x,
+                    g_current_scene->m_state.player->get_position().y + 0.57f, 0.0f));
+        }
+        else if (g_curr_lives_left == 1) {
+            Utility::draw_text(&g_program, g_text_texture_id, std::string("1"), 0.45f, 0.01f,
+                glm::vec3(g_current_scene->m_state.player->get_position().x,
+                    g_current_scene->m_state.player->get_position().y + 0.57f, 0.0f));
+        }
+    }
+
     // Player has no more lives left
     if (g_curr_lives_left <= 0) {
         Utility::draw_text(&g_program, g_text_texture_id, std::string("You Lose!"), 0.5f, 0.01f, glm::vec3(3.0f, -2.5f, 0.0f));

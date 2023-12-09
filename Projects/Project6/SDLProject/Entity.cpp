@@ -387,8 +387,6 @@ void const Entity::check_collision_x(Map* map)
     }
 }
 
-
-
 void Entity::render(ShaderProgram* program)
 {
     if (!m_is_active) { return; }
