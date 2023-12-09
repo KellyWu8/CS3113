@@ -111,14 +111,29 @@ void Entity::ai_guard(Entity* player)
 {
     switch (m_ai_state) {
     case IDLE:
-        if (m_speed == 1.84f || m_speed == 1.9f) { // LevelC slime
+        if (m_speed == 5.0f && player->get_position().y <= -4.0f) { // LevelD slime 2nd platform 
+            if (glm::distance(m_position, player->get_position()) < 5.0f) {
+                m_ai_state = WALKING;
+            }
+            break;
+        }
+        
+        else if (m_speed == 5.2f && player->get_position().y <= -6.0f) {    // LevelD slime 3rd platform 
+
+            if (glm::distance(m_position, player->get_position()) < 5.0f) {
+                m_ai_state = WALKING;
+            }
+            break;
+        }
+
+        else if (m_speed == 1.84f || m_speed == 1.9f) { // LevelC slime
             if (glm::distance(m_position, player->get_position()) < 3.0f) {
                 m_ai_state = WALKING;
             }
             break;
         }
 
-        if (glm::distance(m_position, player->get_position()) < 4.0f) { // LevelA & LevelB slime
+        else if (m_speed != 5.0f && m_speed != 5.2f && glm::distance(m_position, player->get_position()) < 4.0f) { // LevelA & LevelB slime
             m_ai_state = WALKING;
         }
         break;
@@ -155,8 +170,9 @@ void Entity::ai_guard(Entity* player)
     }
 }
 
-void Entity::ai_jump() {
-    if (m_position.y <= 2.0f) { // Jump up and down
+void Entity::ai_jump()
+{
+    if (m_position.y <= -2.0f) { // Jump up and down
         m_is_jumping = true;
     }
 }

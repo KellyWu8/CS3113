@@ -3,6 +3,7 @@
 class LevelA : public Scene {
 public:
     int ENEMY_COUNT = 5;
+    int LIVES_LIMIT = 5;
 
     ~LevelA();
 

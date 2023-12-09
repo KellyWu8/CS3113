@@ -35,6 +35,7 @@
 #include "LevelA.h"
 #include "LevelB.h"
 #include "LevelC.h"
+#include "LevelD.h"
 
 // ––––– CONSTANTS ––––– //
 const int WINDOW_WIDTH = 640,
@@ -64,8 +65,9 @@ Menu* g_menu;
 LevelA* g_levelA;
 LevelB* g_levelB;
 LevelC* g_levelC;
+LevelD* g_levelD;
 
-Scene* g_levels[4];
+Scene* g_levels[5];
 
 SDL_Window* g_display_window;
 bool g_game_is_running = true;
@@ -80,8 +82,8 @@ float g_accumulator = 0.0f;
 
 bool g_is_colliding_bottom = false;
 
-int g_total_lives = 3; // Lives Limit
-int g_curr_lives_left = 3; // Current Lives Counter
+int g_total_lives = 5; // Lives Limit
+int g_curr_lives_left = 5; // Current Lives Counter
 int g_main_death_count = 0; // How many deaths so far throughout all levels
 
 // ––––– GENERAL FUNCTIONS ––––– //
@@ -133,11 +135,13 @@ void initialise()
     g_levelA = new LevelA();
     g_levelB = new LevelB();
     g_levelC = new LevelC();
+    g_levelD = new LevelD();
 
     g_levels[0] = g_menu;
     g_levels[1] = g_levelA;
     g_levels[2] = g_levelB;
     g_levels[3] = g_levelC;
+    g_levels[4] = g_levelD;
 
     // Start at Menu screen
     switch_to_scene(g_levels[0]);
@@ -267,6 +271,10 @@ void update()
     if (g_current_scene == g_levelB && g_current_scene->m_state.player->get_position().x >= 18.0f) {    // LevelB -> LevelC
         switch_to_scene(g_levelC);
     }
+
+    if (g_current_scene == g_levelC && g_current_scene->m_state.player->get_position().x >= 18.0f) {    // LevelC -> LevelD
+        switch_to_scene(g_levelD);
+    }
 }
 
 void render()
@@ -286,7 +294,17 @@ void render()
 
     // Player's lives text
     if (g_current_scene != g_menu) {
-        if (g_curr_lives_left == 3) {
+        if (g_curr_lives_left == 5) {
+            Utility::draw_text(&g_program, g_text_texture_id, std::string("5"), 0.45f, 0.01f,
+                glm::vec3(g_current_scene->m_state.player->get_position().x,
+                    g_current_scene->m_state.player->get_position().y + 0.57f, 0.0f));
+        }
+        else if (g_curr_lives_left == 4) {
+            Utility::draw_text(&g_program, g_text_texture_id, std::string("4"), 0.45f, 0.01f,
+                glm::vec3(g_current_scene->m_state.player->get_position().x,
+                    g_current_scene->m_state.player->get_position().y + 0.57f, 0.0f));
+        }
+        else if (g_curr_lives_left == 3) {
             Utility::draw_text(&g_program, g_text_texture_id, std::string("3"), 0.45f, 0.01f, 
                                glm::vec3(g_current_scene->m_state.player->get_position().x,
                                g_current_scene->m_state.player->get_position().y + 0.57f, 0.0f));
@@ -310,7 +328,7 @@ void render()
     }
 
     // Player wins the game
-    if (g_current_scene == g_levelC && g_current_scene->m_state.player->get_position().x >= 18.0f) {
+    if (g_current_scene == g_levelD && g_current_scene->m_state.player->get_position().x >= 18.0f) {
         Utility::draw_text(&g_program, g_text_texture_id, std::string("You Win!"), 0.5f, 0.01f, glm::vec3(11.5f, -2.5f, 0.0f));
         g_current_scene->m_state.player->deactivate();
     }
@@ -326,7 +344,7 @@ void shutdown()
     delete g_levelA;
     delete g_levelB;
     delete g_levelC;
-
+    delete g_levelD;
 }
 
 // ––––– DRIVER GAME LOOP ––––– //

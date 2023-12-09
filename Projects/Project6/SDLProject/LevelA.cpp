@@ -148,7 +148,7 @@ void LevelA::render(ShaderProgram* program)
     }
 
     // ––––– PLAYER ––––– //
-    if (m_state.player->m_death_count == 3) {
+    if (m_state.player->m_death_count == LIVES_LIMIT) {
         m_state.player->deactivate();
     }
     else {
