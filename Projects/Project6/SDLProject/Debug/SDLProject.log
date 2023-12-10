@@ -2,4 +2,8 @@
 C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\Projects\Project6\SDLProject\Entity.h(128,58): warning C4244: 'return': conversion from 'const float' to 'const int', possible loss of data
 C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\Projects\Project6\SDLProject\Entity.h(129,58): warning C4244: 'return': conversion from 'const float' to 'const int', possible loss of data
 C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\Projects\Project6\SDLProject\LevelD.cpp(148,36): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  main.cpp
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\Projects\Project6\SDLProject\Entity.h(128,58): warning C4244: 'return': conversion from 'const float' to 'const int', possible loss of data
+C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\Projects\Project6\SDLProject\Entity.h(129,58): warning C4244: 'return': conversion from 'const float' to 'const int', possible loss of data
+  Generating Code...
   SDLProject.vcxproj -> C:\Users\kelly\OneDrive\Desktop\xxxxx\NYU\NYU Classes\GameProg\CS3113\Projects\Project6\SDLProject\Debug\SDLProject.exe
